@@ -4,10 +4,7 @@ import com.example.taxes.model.Product;
 import com.example.taxes.model.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -29,10 +26,19 @@ public class MvcController {
 
     @PostMapping("/addnew")
     public String addnew(@ModelAttribute("newproduct") Product product, HttpSession session) {
+
+        product.newId();
         ArrayList<Product> products = (ArrayList<Product>) session.getAttribute("products");
         products.add(product);
 
         return "index";
     }
 
+    @PostMapping("/delete")
+    public String deleteProduct(
+            @ModelAttribute("newproduct") Product product, @RequestParam String id) {
+
+        ProductRepository.getInstance().deleteProduct(id);
+        return "index";
+    }
 }

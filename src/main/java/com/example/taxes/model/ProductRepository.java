@@ -2,6 +2,8 @@ package com.example.taxes.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductRepository {
     private static ProductRepository instance;
@@ -16,14 +18,20 @@ public class ProductRepository {
 
     private ProductRepository(){
         products = new ArrayList<>();
-        addProduct(new Product("Headphone", new BigDecimal(10), true));
-    }
-
-    public void addProduct(Product product) {
-        this.products.add(product);
+        products.add(new Product("Headphone", new BigDecimal(10), true));
     }
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    private Product findProductById(String id) {
+        return products.stream()
+                .filter(product -> product.getId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    public void deleteProduct(String id) {
+        products.remove(findProductById(id));
     }
 }

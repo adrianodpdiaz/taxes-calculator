@@ -47,8 +47,10 @@
                         <td>No</td>
                     <% } %>
                     <td>
-                        <button type="button" class="button green">edit</button>
-                        <button type="button" class="button red">delete</button>
+                        <form:form action="/delete" method="post" modelAttribute="newproduct">
+                            <form:input path="id" type="hidden" value="<%=p.getId()%>" />
+                            <button type="submit" class="button red">delete</button>
+                        </form:form>
                     </td>
                 </tr>
             <% } %>
