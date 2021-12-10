@@ -18,7 +18,6 @@ public class ProductRepository {
 
     private ProductRepository(){
         products = new ArrayList<>();
-        products.add(new Product("Headphone", new BigDecimal(10), true, "other"));
     }
 
     public ArrayList<Product> getProducts() {
@@ -35,11 +34,18 @@ public class ProductRepository {
         products.remove(findProductById(id));
     }
 
-    public BigDecimal calculateTotalTaxes() {
+    public ArrayList<BigDecimal> calculateTotalTaxes() {
         BigDecimal total = new BigDecimal(0);
+        BigDecimal totalTaxes = new BigDecimal(0);
+        ArrayList<BigDecimal> taxesArray = new ArrayList<>();
+
         for(Product product : products) {
             total = total.add(product.getPriceWithTaxes());
+            totalTaxes = totalTaxes.add(product.getPriceWithTaxes().subtract(product.getPrice()));
         }
-        return total;
+
+        taxesArray.add(totalTaxes);
+        taxesArray.add(total);
+        return taxesArray;
     }
 }

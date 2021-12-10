@@ -92,14 +92,21 @@
                     <td>€ <%=p.getPriceWithTaxes()%></td>
                 </tr>
                 <% } %>
+                <%
+                    ArrayList<BigDecimal> totalTaxes = ProductRepository.getInstance().calculateTotalTaxes();
+                %>
                 <tr>
                     <td></td>
-                    <td>Total</td>
+                    <td>Total Taxes:</td>
                     <td>
-                        <%
-                            BigDecimal total = ProductRepository.getInstance().calculateTotalTaxes();
-                        %>
-                        € <%=total%>
+                        € <%=totalTaxes.get(0)%>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total: </td>
+                    <td>
+                        € <%=totalTaxes.get(1)%>
                     </td>
                 </tr>
                 </tbody>
