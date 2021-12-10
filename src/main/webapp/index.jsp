@@ -24,7 +24,11 @@
     <form:form cssClass="addnew" action="addnew" method="post" modelAttribute="newproduct">
         <form:input cssClass="field" path="name" type="text" required="true" placeholder="Product name"/>
         <form:input cssClass="field" path="price" type="number" required="true" placeholder="Price" step=".01" min="0"/>
-
+        <form:select cssClass="field" path="category">
+            <% for (String word: Product.getAllCategories()) { %>
+                <form:option value="<%=word%>"/>
+            <% } %>
+        </form:select>
         <form:label path="imported">Imported</form:label>
         <form:checkbox cssClass="field" path="imported"/>
 
@@ -35,6 +39,7 @@
             <tr>
                 <th>Product</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Imported</th>
                 <th>Action</th>
             </tr>
@@ -44,6 +49,7 @@
                 <tr>
                     <td><%=p.getName()%></td>
                     <td>€ <%=p.getPrice()%></td>
+                    <td><%=p.getCategory()%></td>
                     <% if(p.getImported() == true) { %>
                         <td>Yes</td>
                     <% } else if(p.getImported() == false) { %>
@@ -93,14 +99,11 @@
                         <%
                             BigDecimal total = ProductRepository.getInstance().calculateTotalTaxes();
                         %>
-                        <%=total%>
+                        € <%=total%>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <footer class="modal-footer">
-                <button class="button">New</button>
-            </footer>
         </div>
     </div>
     <script type="text/javascript" src="main.js"></script>

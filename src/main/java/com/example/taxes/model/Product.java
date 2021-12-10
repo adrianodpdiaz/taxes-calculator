@@ -11,13 +11,19 @@ public class Product {
     private BigDecimal price;
     private boolean imported;
     private BigDecimal priceWithTaxes;
+    private static String[] allCategories;
+    private String category;
+    static {
+        allCategories = new String[] {"book","food","medical","other"};
+    }
 
-    public Product(String name, BigDecimal price, boolean imported) {
+    public Product(String name, BigDecimal price, boolean imported, String category) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.price = price.setScale(2, RoundingMode.CEILING);
-        this.priceWithTaxes = calculateTaxes();
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
         this.imported = imported;
+        this.category = category;
+        this.priceWithTaxes = calculateTaxes();
     }
 
     public Product() { }
@@ -47,7 +53,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2, RoundingMode.CEILING);
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
         this.priceWithTaxes = calculateTaxes();
     }
 
@@ -60,9 +66,28 @@ public class Product {
     }
 
     private BigDecimal calculateTaxes() {
-        if(!imported) {
-            return this.price.add(this.price.multiply(new BigDecimal(0.10))).setScale(2, RoundingMode.CEILING);
+        if(!this.imported) {
+            if (!this.category.equals("other"))
+                return this.price;
+            return this.price.add(this.price.multiply(new BigDecimal(0.10)))
+                    .setScale(2, RoundingMode.HALF_UP);
         }
-        return this.price.add(this.price.multiply(new BigDecimal(0.15))).setScale(2, RoundingMode.CEILING);
+        if (!this.category.equals("other"))
+            return this.price.add(this.price.multiply(new BigDecimal(0.05)))
+                    .setScale(2, RoundingMode.HALF_UP);
+        return this.price.add(this.price.multiply(new BigDecimal(0.15)))
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public static String[] getAllCategories() {
+        return allCategories;
     }
 }

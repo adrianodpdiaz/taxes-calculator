@@ -18,7 +18,7 @@ public class ProductRepository {
 
     private ProductRepository(){
         products = new ArrayList<>();
-        products.add(new Product("Headphone", new BigDecimal(10), true));
+        products.add(new Product("Headphone", new BigDecimal(10), true, "other"));
     }
 
     public ArrayList<Product> getProducts() {
@@ -40,7 +40,6 @@ public class ProductRepository {
         for(Product product : products) {
             total = total.add(product.getPriceWithTaxes());
         }
-        System.out.println(total);
         return total;
     }
 }
