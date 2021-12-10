@@ -34,4 +34,13 @@ public class ProductRepository {
     public void deleteProduct(String id) {
         products.remove(findProductById(id));
     }
+
+    public BigDecimal calculateTotalTaxes() {
+        BigDecimal total = new BigDecimal(0);
+        for(Product product : products) {
+            total = total.add(product.getPriceWithTaxes());
+        }
+        System.out.println(total);
+        return total;
+    }
 }

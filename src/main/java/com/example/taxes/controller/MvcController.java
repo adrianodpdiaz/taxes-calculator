@@ -17,6 +17,7 @@ public class MvcController {
 
         ArrayList<Product> products = ProductRepository.getInstance().getProducts();
         session.setAttribute("products", products);
+        session.setAttribute("modalActive", false);
 
         Product product = new Product();
         model.addAttribute("newproduct", product);
@@ -39,6 +40,7 @@ public class MvcController {
             @ModelAttribute("newproduct") Product product, @RequestParam String id) {
 
         ProductRepository.getInstance().deleteProduct(id);
+
         return "index";
     }
 }
